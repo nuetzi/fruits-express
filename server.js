@@ -17,9 +17,6 @@ app.engine('jsx', require('express-react-views').createEngine());
 // Create a page that will allow us to create a new fruit
 app.get('/fruits/new', (req, res) => {
     res.render('New');
-    // Fruit.create(req.body, (error, createdFruit)=>{
-    //     res.redirect('/fruits');
-    // });
 });
 
 
@@ -42,6 +39,7 @@ app.post('/fruits/', (req, res)=>{
     }
     Fruit.create(req.body, (error, createdFruit)=>{
         res.send(createdFruit);
+        res.redirect('/fruits');
     });
 });
 
