@@ -38,7 +38,6 @@ app.post('/fruits/', (req, res)=>{
         req.body.readyToEat = false;
     }
     Fruit.create(req.body, (error, createdFruit)=>{
-        res.send(createdFruit);
         res.redirect('/fruits');
     });
 });
