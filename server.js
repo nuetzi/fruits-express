@@ -17,13 +17,13 @@ app.engine('jsx', require('express-react-views').createEngine());
 // Create a page that will allow us to create a new fruit
 app.get('/fruits/new', (req, res) => {
     res.render('New');
-    Fruit.create(req.body, (error, createdFruit)=>{
-        res.redirect('/fruits');
-    });
+    // Fruit.create(req.body, (error, createdFruit)=>{
+    //     res.redirect('/fruits');
+    // });
 });
 
 
-// Index route
+// Index route: Show ALL
 app.get('/fruits', (req, res)=>{
     Fruit.find({}, (error, allFruits)=>{
         res.render('Index', {
