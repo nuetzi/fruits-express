@@ -7,6 +7,7 @@ const methodOverride = require('method-override');
 
 const port = process.env.PORT || 3000;
 
+// Middleware -- Goes near the top
 app.use(express.urlencoded({extended:true}));
 app.use(methodOverride('_method'));
 
@@ -57,20 +58,13 @@ app.put('/fruits/:id', (req, res)=>{
 });
 
 
-app.delete('/fruits/:id', (req, res)=>{
-    Fruit.findByIdAndRemove(req.params.id, (err, data) => {
-        res.redirect('/fruits');            //redirect back to fruits index
-    });
-});
-
-
 app.get('/fruits/:id/edit', (req, res)=>{
-    Fruit.findById(req.params.id, (err, foundFruit)=>{ //find the fruit
+    Fruit.findById(req.params.id, (err, foundFruit)=>{          //find the fruit
       if(!err){
         res.render(
     		  'Edit',
     		{
-    			fruit: foundFruit //pass in found fruit
+    			fruit: foundFruit               //pass in found fruit
     		}
     	);
     } else {
@@ -80,7 +74,8 @@ app.get('/fruits/:id/edit', (req, res)=>{
 });
 
 
-app.get('/fruits/:id', (req, res)=>{
+// GET: Show one
+app.get('/fruits/:id', (req, res) => {
     Fruit.findById(req.params.id, (err, foundFruit) => {
         res.render('Show', {
             fruit:foundFruit
@@ -89,10 +84,18 @@ app.get('/fruits/:id', (req, res)=>{
 });
 
 
+// DELETE: Delete one
+app.delete('/fruits/:id', (req, res) => {
+    Fruit.findByIdAndRemove(req.params.id, (err, data) => {
+        res.redirect('/fruits');            //redirect back to fruits index
+    });
+});
+
+
 
 // Connect to mongo database
 mongoose.connect(process.env.MONGO_URI, { useNewUrlParser: true, useUnifiedTopology: true });
-mongoose.connection.once('open', ()=> {
+mongoose.connection.once('open', () => {
     console.log('Connected to mongo');
 });
 
