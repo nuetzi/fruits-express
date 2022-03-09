@@ -3,10 +3,12 @@ const express = require('express');
 const app = express();
 const mongoose = require('mongoose');
 const Fruit = require('./models/fruits.js');
+const methodOverride = require('method-override');
 
 const port = process.env.PORT || 3000;
 
 app.use(express.urlencoded({extended:true}));
+app.use(methodOverride('_method'));
 
 
 // Setup view engine above routes
@@ -43,8 +45,43 @@ app.post('/fruits/', (req, res)=>{
 });
 
 
+app.put('/fruits/:id', (req, res)=>{
+    if(req.body.readyToEat === 'on'){
+        req.body.readyToEat = true;
+    } else {
+        req.body.readyToEat = false;
+    }
+    Fruit.findByIdAndUpdate(req.params.id, req.body, {new:true}, (err, updatedModel) => {
+        res.redirect('/fruits');
+    });
+});
+
+
+app.delete('/fruits/:id', (req, res)=>{
+    Fruit.findByIdAndRemove(req.params.id, (err, data) => {
+        res.redirect('/fruits');            //redirect back to fruits index
+    });
+});
+
+
+app.get('/fruits/:id/edit', (req, res)=>{
+    Fruit.findById(req.params.id, (err, foundFruit)=>{ //find the fruit
+      if(!err){
+        res.render(
+    		  'Edit',
+    		{
+    			fruit: foundFruit //pass in found fruit
+    		}
+    	);
+    } else {
+      res.send({ msg: err.message })
+    }
+    });
+});
+
+
 app.get('/fruits/:id', (req, res)=>{
-    Fruit.findById(req.params.id, (err, foundFruit)=>{
+    Fruit.findById(req.params.id, (err, foundFruit) => {
         res.render('Show', {
             fruit:foundFruit
         });
