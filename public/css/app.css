@@ -1,1 +1,5 @@
 /* --- Can style pages using this file --- */
+body {
+    background-color: bisque;
+    text-align: center;
+}
