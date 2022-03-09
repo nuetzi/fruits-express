@@ -10,6 +10,7 @@ const port = process.env.PORT || 3000;
 // Middleware -- Executes for all routes, so it goes near the top
 app.use(express.urlencoded({extended:true}));
 app.use(methodOverride('_method'));
+app.use(express.static('public'));  //tells express to try to match requests with files in the directory called 'public'
 
 
 // Setup view engine above routes
