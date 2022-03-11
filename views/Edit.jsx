@@ -7,8 +7,7 @@ class Edit extends React.Component{
     return (
       <DefaultLayout title="Edit Page">
         <link rel="stylesheet" href="/css/app.css"/>      
-        {/* The Layout takes in a prop called Title and we pass the Edit Page to it  note: comments can't go first or last in  jsx return*/}
-        {/* form is not complete we will do that below*/}
+        {/* The Layout takes in a prop called Title and we pass the Edit Page to it */}
         <form action={`/fruits/${this.props.fruit._id}?_method=PUT`} method="POST">
         Name: <input type="text" name="name" defaultValue={this.props.fruit.name}/><br/>
         Color: <input type="text" name="color"  defaultValue={this.props.fruit.color}/><br/>
